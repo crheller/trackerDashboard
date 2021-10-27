@@ -35,15 +35,6 @@ include "templates/header.php"; ?>
   <?php echo escape($_POST['firstname']); ?> successfully added.
 <?php } ?>
 
-<div class="topnav">
-            <h href="index.php">trackerdb</h>        
-            <a class="active" href="create.php", id="end">Add</a>
-            <a href="browse.php">Browse</a>
-            <a href="analysis.php">Analysis</a>
-            <a href="experiments.php">Active Experiments</a>
-            <a href="index.php">Home</a>
-</div> 
-
 <h2>Add a user</h2>
 
 <form method="post">
