@@ -32,7 +32,7 @@
     $statement->execute();
 
     // for fish stuff (name / idx / genotype / dpf), first need to make sure the fish exists in the db.
-    $sql = sprintf("SELECT count(*) FROM fish WHERE fish_id=\"%s\"", $_REQUEST["fish_id"]);
+    $sql = sprintf("SELECT count(*) FROM fish WHERE fish_id=%s", $_REQUEST["fish_id"]);
     $statement = $connection->prepare($sql);
     $statement->execute();
     $result = $statement->fetchColumn(); 
@@ -42,18 +42,18 @@
     // if the fish does not exist, add a new fish with the specified genotype / dpf and force idx to 1
     // then, go back and update the data table where id=expt_id with the new fish info
     if ($result > 0) {
-        $sql = sprintf("UPDATE fish SET genotype=\"%s\", dpf=%s WHERE fish_id=\"%s\"", $genotype, $dpf, $_REQUEST['fish_id']);
+        $sql = sprintf("UPDATE fish SET genotype=\"%s\", dpf=%s WHERE fish_id=%s", $genotype, $dpf, $_REQUEST['fish_id']);
         $statement = $connection->prepare($sql);
         $statement->execute();
         echo "<script>console.log('sql: " . $sql . "');</script>";
     } else {
-        $sql = sprintf("INSERT into fish (fish_id, genotype, dpf, addedby) VALUE (\"%s\", \"%s\", %s, \"%s\")", 
+        $sql = sprintf("INSERT into fish (fish_id, genotype, dpf, addedby) VALUE (%s, \"%s\", %s, \"%s\")", 
                         $_REQUEST['fish_id'], $genotype, $dpf, $_REQUEST['addedby']);
         $statement = $connection->prepare($sql);
         $statement->execute();
         echo "<script>console.log('sql: " . $sql . "');</script>";
         
-        $sql = sprintf("UPDATE data SET fish_id=\"%s\", fish_idx=1 WHERE experiment_id=%s", $_REQUEST['fish_id'], $expt_id);
+        $sql = sprintf("UPDATE data SET fish_id=%s, fish_idx=1 WHERE experiment_id=%s", $_REQUEST['fish_id'], $expt_id);
         $statement = $connection->prepare($sql);
         $statement->execute();
         echo "<script>console.log('sql: " . $sql . "');</script>";
