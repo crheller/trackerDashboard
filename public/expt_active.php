@@ -48,13 +48,13 @@
       <label for="comments" class="comments">Comments:</label>
       <textarea id="comments" class="comments", type="text"><?php echo sprintf("%s", $query_results[0]["comments"])?></textarea>
 
-      <button name="save", id="save", value="save" onclick="on_save()">Save</button>
-      <button>Save and exit</button>
+      <button name="save", id="save", value="save" onclick="on_save('pass')">Save</button>
+      <button name="save", id="save", value="save" onclick="on_save('quit')">Save and exit</button>
       <!-- more inputs -->
 </div>
 
 <script>
-function on_save() {
+function on_save(str) {
     // get current field values and add them to the http message
     var html_msg = "ajax_scripts/ajax_dbupdate.php?";
     const ids = ["addedby", "experiment_rig", "experiment_class", "fish_id", "fish_idx", "genotype", "dpf", "imaging", "bad", "comments"];
@@ -72,6 +72,9 @@ function on_save() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+            if (str=="quit") {
+                window.location = "experiments.php";
+            }
             console.log("Success writing to db!");
         }
     };
